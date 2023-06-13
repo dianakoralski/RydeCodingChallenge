@@ -17,6 +17,7 @@ import { DateRangePicker } from "rsuite";
 
 export function ChartPage() {
   const [timeGroup, setTimeGroup] = React.useState("day");
+  const [dateRange, setDateRange] = React.useState(null);
   const [displayData, setDisplayData] = React.useState([]);
 
   const handleTimeGroupChange = (
@@ -25,13 +26,15 @@ export function ChartPage() {
   ) => {
     if (newValue !== null) {
       setTimeGroup(newValue);
-      console.log(newValue);
+
+      var startDate = dateRange == null ? undefined : dateRange[0];
+      var endDate = dateRange == null ? undefined : dateRange[1];
       if (newValue === "day")
         setDisplayData(
-          Data.getDayData() //new Date("2022-11-01"), new Date("2022-12-01"))
+          Data.getDayData(startDate, endDate)
         );
-      else if (newValue === "week") setDisplayData(Data.getWeekData());
-      else if (newValue === "month") setDisplayData(Data.getMonthData());
+      else if (newValue === "week") setDisplayData(Data.getWeekData(startDate, endDate));
+      else if (newValue === "month") setDisplayData(Data.getMonthData(startDate, endDate));
     }
   };
 
@@ -56,7 +59,18 @@ export function ChartPage() {
   ];
 
   function handleDateRangePickerChange(value) {
-    console.log(value);
+    setDateRange(value);
+    var newData;
+    if (timeGroup == "day")
+        newData = value == null ? Data.getDayData():
+        Data.getDayData(value[0], value[1]);
+    else if (timeGroup == "week")
+        newData = value == null ? Data.getWeekData():
+        Data.getWeekData(value[0], value[1]);
+    else if (timeGroup == "month") 
+        newData = value == null ? Data.getMonthData():
+        Data.getMonthData(value[0], value[1]);
+    setDisplayData(newData);
   }
 
   return (
@@ -73,6 +87,7 @@ export function ChartPage() {
         </ToggleButtonGroup>
 
         <DateRangePicker
+          value={dateRange}
           ranges={predefinedBottomRanges}
           placeholder="Select Date Range"
           onChange={handleDateRangePickerChange}

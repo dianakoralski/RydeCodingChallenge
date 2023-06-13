@@ -77,7 +77,13 @@
   
   export function getWeekData(startDate, endDate) {
     // Week data
-    const weekGroups = backendData.reduce((groups, record) => {
+    const weekGroups = backendData
+    .filter(
+        (record) =>
+          (!startDate || startDate <= record.date) &&
+          (!endDate || endDate >= record.date)
+      )
+    .reduce((groups, record) => {
       const monthYear = `${getWeek(record.date)}/${record.date.getFullYear()}`;
       if (!groups[monthYear]) {
         groups[monthYear] = [];
@@ -96,7 +102,13 @@
   
   export function getMonthData(startDate, endDate) {
     // Month data
-    const groups = backendData.reduce((groups, record) => {
+    const groups = backendData
+    .filter(
+        (record) =>
+          (!startDate || startDate <= record.date) &&
+          (!endDate || endDate >= record.date)
+      )
+    .reduce((groups, record) => {
       const monthYear = `${
         record.date.getMonth() + 1
       }/${record.date.getFullYear()}`;
