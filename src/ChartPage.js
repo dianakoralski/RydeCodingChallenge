@@ -1,5 +1,5 @@
 import * as React from "react";
-import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {
@@ -9,7 +9,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  ResponsiveContainer
 } from "recharts";
 import * as Data from "./Data";
 import { DateRangePicker } from "rsuite";
@@ -74,29 +75,41 @@ export function ChartPage() {
   }
 
   return (
-    <Stack direction="column">
-      <Stack direction="row">
-        <ToggleButtonGroup
-          value={timeGroup}
-          exclusive={true}
-          onChange={handleTimeGroupChange}
-        >
-          <ToggleButton value="day">DAY</ToggleButton>
-          <ToggleButton value="week">WEEK</ToggleButton>
-          <ToggleButton value="month">MONTH</ToggleButton>
-        </ToggleButtonGroup>
+    <Grid container spacing={2}>
+        <Grid item xs={4}>
+        <b style={{ marginLeft: 20, whiteSpace: "nowrap", lineHeight: "4"}}>
+          New Users
+        </b>
+        </Grid>
 
+        <Grid item xs={4}>
         <DateRangePicker
+          style={{ marginTop: 10 }}
           value={dateRange}
           ranges={predefinedBottomRanges}
           placeholder="Select Date Range"
           onChange={handleDateRangePickerChange}
         />
-      </Stack>
+        </Grid>
 
+        <Grid item xs={4}>
+            <ToggleButtonGroup
+            style={{ height: 20, margin: 15}}
+            value={timeGroup}
+            exclusive={true}
+            onChange={handleTimeGroupChange}
+            >
+            <ToggleButton value="day">DAY</ToggleButton>
+            <ToggleButton value="week">WEEK</ToggleButton>
+            <ToggleButton value="month">MONTH</ToggleButton>
+            </ToggleButtonGroup>
+        </Grid>
+
+        
+        <Grid container justify="center">
+  <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+    <ResponsiveContainer width="100%" minHeight={300}>
       <LineChart
-        width={600}
-        height={300}
         data={displayData}
         margin={{
           top: 5,
@@ -109,7 +122,7 @@ export function ChartPage() {
         <XAxis dataKey="displayDate" />
         <YAxis />
         <Tooltip />
-        <Legend formatter={()=>(`total per ${timeGroup}`)} />
+        <Legend formatter={() => (`total per ${timeGroup}`)} />
         <Line
           type="monotone"
           dataKey="total"
@@ -118,6 +131,9 @@ export function ChartPage() {
           activeDot={{ r: 3 }}
         />
       </LineChart>
-    </Stack>
+    </ResponsiveContainer>
+  </Grid>
+</Grid>
+</Grid>
   );
 }
