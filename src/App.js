@@ -1,12 +1,12 @@
+import React from 'react';
 import './App.css';
 import { ChartPage } from './ChartPage';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
+    <div>
+      <h1>Ryde Coding Challenge - Diana Koralski</h1>
       <ChartPage />
     </div>
   );
 }
-
-export default App;
