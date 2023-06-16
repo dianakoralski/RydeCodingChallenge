@@ -26,4 +26,4 @@ You can open the live service here:
 
 ## Presentation Video
 
-[placeholder](youtube.com)
+[https://www.youtube.com/watch?v=5at0LsbjBrg](https://www.youtube.com/watch?v=5at0LsbjBrg)
